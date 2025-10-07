@@ -1,0 +1,24 @@
+---------------------------------------------------------------------------
+NCDrill File Report For: Z80_ICE.PCB   14-Mar-2023  09:48:28
+---------------------------------------------------------------------------
+
+
+
+Layer Pair : TopLayer to BottomLayer
+ASCII File : NCDrillOutput.TXT
+EIA File   : NCDrillOutput.DRL
+
+Tool         Hole Size          Hole Count Plated       Tool Travel
+---------------------------------------------------------------------------
+T1        0.4mm (15.748mil)        148              867.01 mm (34.13 Inch)
+T2        0.8mm (31.496mil)        49               401.52 mm (15.81 Inch)
+T3        0.85mm (33.465mil)       68               309.75 mm (12.19 Inch)
+T4        0.9mm (35.433mil)        5                209.19 mm (8.24 Inch)
+T5        1mm (39.37mil)           4                202.49 mm (7.97 Inch)
+T6        2.4mm (94.488mil)        2                209.42 mm (8.25 Inch)
+T7        2.8mm (110.236mil)       2                168.86 mm (6.65 Inch)
+T8        2.5mm (98.425mil)        6         NPTH   355.03 mm (13.98 Inch)
+---------------------------------------------------------------------------
+Totals                             284              2723.27 mm (107.22 Inch)
+
+Total Processing Time : 00:00:00

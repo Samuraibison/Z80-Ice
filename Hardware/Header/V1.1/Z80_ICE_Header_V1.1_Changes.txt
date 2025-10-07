@@ -1,0 +1,8 @@
+Header Changes V1.0->V1.1
+=========================
+
+ 1. Moved the resistors to the top side so they aren't damaged by levering it out of the socket
+    with a screwdriver
+
+ 2. Moved some of the legends and put a square around pin 1
+

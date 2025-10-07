@@ -1,0 +1,21 @@
+Z80 ICE Changes V1.1->V1.2
+==========================
+
+
+Electrical
+----------
+
+ 1. ZVCC can be higher than VCC (from USB) so the PIC ZVCC pin has been potted down
+
+ 2. The PIC GND pins are not connected together directly - extra vias added
+
+ 3. USB trace routing improved (tracks ran together for a short distance - differential impedance)
+
+ 4. Target Vcc is quite noisy - added a cap at the connector
+
+ 5. BUSY LED (D3) turned round so it is the same way round as the other LEDs
+
+ 6. C14 moved further away from U4
+
+ 7. Legend placement improved, no legends are under parts anymore
+

@@ -1,0 +1,78 @@
+Z80 ICE V1.2 Problems
+=====================
+
+
+Electrical
+----------
+
+ 1. Target power supplies phantom power to ICE when ICE USB is not plugged in.
+
+ 2. Do we need to power the output buffers from ZVCC so they don't output a higher voltage than
+    the target system ?
+
+ 3. It doesn't work at 20MHz (only 18MHz with a short cable).  Observing signals on the
+    system Z80 socket, when running at 16MHz, the clock arrives at the ICE Z80 clock pin
+    with very little delay although the edges are quite slow.  Then the control signals
+    such as nM1, nMREQ, nRD etc. arrive at the system socket with about half a clock cycle
+    delay (31ns).  Some of the delay is in the Z80, almost none in the gates, about 12ns in
+    the HC244 buffer and none in the 47R resistor.  We can improve the timing by about 6ns
+    by switching to AC244 buffers and square up the clock by reducing the 47R on the adaptor
+    board to 22R?  The reality is that the Z80 signals come out too late to allow it to work
+    at 20MHz so we need a new CPLD design - not sure how it might be fixed??  Re-evaluate
+    on V1.1 PCBs.
+
+
+Mechanical
+----------
+
+ 1. 
+
+
+Improvements for next board
+---------------------------
+
+ 1. 
+
+
+Manufacturing problems
+----------------------
+
+ 1. 
+
+
+Future ideas
+------------
+
+ 1. Use an ARM for improved performance and added pins.  Will support DFU.  5V pins??
+    Need to connect HALT and NMI lines to CPU (see 2 below).
+
+ 2. Connect more SRAM data pins to the CPLD for other breakpoint reasons we may implement.
+    For example a breakpoint on 0x66 gated with a CPU signal so we can set it when the Z80
+    is running and break out of a HALT state by generating an NMI.
+
+ 3. Have an external breakpoint input so an event can stop the code.
+
+ 4. Power & busy LEDs on outside of box?
+
+ 5. Faster Z80, Z180, eZ80 etc?
+
+
+PCB Modifications
+-----------------
+
+ 1. 
+
+
+
+Interrupt problem
+-----------------
+
+If an interrupt is recognised during the instruction before a breakpoint, the Z80 starts an interrupt
+acknowledge cycle which consists of nM1 and nIORQ going low.  Unfortunately we have to recognise the
+breakpoint on the nM1 half a cycle before nMREQ so we can gate off nRD to the system in time to stop
+a valid memory cycle for the system.  This means that the breakpoint is recognised due to nM1 going
+low on an interrupt acknowledge cycle and the PC ends up on the interrupt vector.
+
+This is guaranteed to happen whenever the interrupts are enabled by an EI RET sequence if there is a
+breakpoint on the return address.  That's why the Z80 version of chip_enable_interrupts() has a NOP.
+

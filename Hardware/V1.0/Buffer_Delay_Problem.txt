@@ -1,0 +1,33 @@
+File Buffer_Delay_HC.png
+------------------------
+
+CPU clock is 16MHz in the picture
+
+Yellow: Clock on Elektor board (source of Z80 clock)
+Blue:   Z80 clock on ICE (about 4ns delayed from yellow trace)
+Pink:   nMREQ output of Z80 on ICE
+Green:  nMREQ on Elektor board (16ns delayed)
+
+All the control signals go through 74HC244 buffers and some gates.
+The gates don't delay the signals much so the HC244's are responsible
+for the majority of the 16ns delay.
+
+
+ICE and debugger seem to stop working above ~18.3MHz (won't step properly)
+
+
+
+File Buffer_Delay_AC.png
+------------------------
+
+Same probes as above.
+
+U9 (74HC244 buffer) changed for a 74AC244.
+nMREQ delay is now 10ns, an improvement of 6ns.
+Edges are faster and overshoot at the Elektor board.
+
+Still works at 18MHz but no higher.
+
+
+Update: Runs at 20MHz, steps most instructions but ADD A,B doesn't step
+(it appears to see the breakpoint on the ADD and fail to start).

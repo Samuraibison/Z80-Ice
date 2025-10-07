@@ -1,0 +1,88 @@
+Z80 ICE V1.1 Problems
+=====================
+
+
+Electrical
+----------
+
+ 1. Target power supplies phantom power to ICE when ICE USB is not plugged in.
+
+ 2. ZVCC could be higher than VCC so the PIC pin needs to be potted down - see mod 2.
+
+ 3. The PIC GND pins are not connected together directly - put a via next to the decoupling
+    cap and on the other side so the blue plane carries through, see mod 3.
+
+ 5. USB trace routing - think about differential impedance.
+
+ 6. It doesn't work at 20MHz (only 18MHz with a short cable).  Observing signals on the
+    system Z80 socket, when running at 16MHz, the clock arrives at the ICE Z80 clock pin
+    with very little delay although the edges are quite slow.  Then the control signals
+    such as nM1, nMREQ, nRD etc. arrive at the system socket with about half a clock cycle
+    delay (31ns).  Some of the delay is in the Z80, almost none in the gates, about 12ns in
+    the HC244 buffer and none in the 47R resistor.  We can improve the timing by about 6ns
+    by switching to AC244 buffers and square up the clock by reducing the 47R on the adaptor
+    board to 22R?  The reality is that the Z80 signals come out too late to allow it to work
+    at 20MHz so we need a new CPLD design - not sure how it might be fixed??  Re-evaluate
+    on V1.1 PCBs.
+
+
+Mechanical
+----------
+
+ 1. 
+
+
+Improvements for next board
+---------------------------
+
+ 1. Turn round the BUSY LED (D3) so it is the same way round as the other LEDs.
+
+ 2. C14 is a bit close to U4.
+
+ 3. A few of the legends aren't central to the component.  U1 legend would be better in
+    the huge gap on the side of the chip.  Some of the legends are under the parts.
+
+ 4. Move the 0402 resistors on the header board to the top side so they aren't damaged by
+    levering it out of the socket with a screwdriver.
+
+
+Manufacturing problems
+----------------------
+
+ 1. 
+
+
+Future ideas
+------------
+
+ 1. Possibly drive nCTS on the FTDI chip to force it to send the buffered data to the PC.
+    We'd need to find a PIC pin/signal we can re-use, see mod. 1.
+
+ 2. Power & busy LEDs on outside of box?
+
+ 3. Connect more SRAM data pins to the CPLD for other breakpoint reasons we may implement.
+
+
+
+PCB Modifications
+-----------------
+
+ 1. Add a wire between TDI and the FTDI chip as in V1.2 PCB.
+
+ 2. Pot down ZVCC as in V1.2 PCB.
+
+ 3. Added a wire between the PIC GND pins.
+
+
+Interrupt problem
+-----------------
+
+If an interrupt is recognised during the instruction before a breakpoint, the Z80 starts an interrupt
+acknowledge cycle which consists of nM1 and nIORQ going low.  Unfortunately we have to recognise the
+breakpoint on the nM1 half a cycle before nMREQ so we can gate off nRD to the system in time to stop
+a valid memory cycle for the system.  This means that the breakpoint is recognised due to nM1 going
+low on an interrupt acknowledge cycle and the PC ends up on the interrupt vector.
+
+This is guaranteed to happen whenever the interrupts are enabled by an EI RET sequence if there is a
+breakpoint on the return address.  That's why the Z80 version of chip_enable_interrupts() has a NOP.
+

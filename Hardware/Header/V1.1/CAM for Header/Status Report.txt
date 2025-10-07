@@ -1,0 +1,27 @@
+CAM Outputs Generation Report
+for 'CAM Outputs for Header.cam'
+at 17:48:59 on 16-May-2024
+
+
+'NC Drill Output 1'
+'Header.TXT' generated
+'Header.DRL' generated
+'Header.DRR' generated
+
+'Gerber Output 1'
+'Header.GTL' generated
+'Header.GBL' generated
+'Header.GTO' generated
+'Header.GBO' generated
+'Header.GTP' generated
+'Header.GBP' generated
+'Header.GTS' generated
+'Header.GBS' generated
+'Header.GKO' generated
+'Header.GM4' generated
+'Header.GD1' generated
+'Header.GG1' generated
+'Header.REP' generated
+
+
+Total number of generated files = 16

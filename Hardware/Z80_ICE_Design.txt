@@ -1,0 +1,121 @@
+ICE Options
+===========
+
+1. Design a Z80 in an FPGA
+   Expensive, difficult to get right
+
+2. Emulate a Z80 with a fast MCU
+   May not be able to use the system clock
+   Slow if all the pin timing is emulated
+
+3. Control the clocks to the Z80
+   No obvious way to set breakpoints
+   No refresh when stopped
+   Problems with interrupts, step over etc.
+   Need target RAM to read/write registers etc.
+   Need to mux the address bus between Z80 and PIC
+
+4. Entirely soft solution using HALT for breakpoints
+   User code can't use HALT
+   Can't step through ROM code
+   Need target RAM to read/write registers etc.
+   Need to mux the address bus between Z80 and PIC
+
+5. Our solution below...
+
+See also http://www.primrosebank.net/computers/z80/z80_special_reset.htm
+for short reset designed to be used with an ICE
+
+
+
+Z80 ICE
+=======
+
+Z80 CPU (20MHz)
+CPLD
+64K x 8-bit breakpoint RAM
+Control CPU (PIC) & debug interface
+
+
+Debugger needs to be able to...
+
+1. Reset CPU
+2. Read/write system memory
+3. Set/clear breakpoints
+4. Set breakpoints
+5. Read/write Z80 registers
+6. Stop the CPU and read the PC
+
+
+Breakpoint RAM bits
+-------------------
+
+0 : Code (execution) breakpoint
+1 : Data read breakpoint
+2 : Data write breakpoint
+3 : Address is ROM / write protected (not implemented)
+
+I/O read/write breakpoint??
+Tracepoints?
+Full trace?
+
+
+The Z80 address bus is connected to the system and the
+breakpoint RAM.  Z80 memory requests always read the
+breakpoint RAM but the control lines nRD nWR etc. are gated
+before they go to the system so that the requests can be
+prevented from accessing system memory.  When running user
+user code, all the control lines are active to the system.
+
+The system provides the clock so it can't be stopped.
+
+To stop the CPU, we could...
+
+1. Stop the clock - that would stop refreshing DRAM or
+2. Insert infinite wait states (addr wouldn't change).
+   Would also stop DRAM refresh or
+3. Execute NOPs (addr would go round 0-64K).  I suspect it
+   would accept an interrupt, change addr, then continue
+   executing NOPs and stay in interrupt state.
+4. Execute a HALT - this would also jump on an interrupt.
+
+These options all have problems so the scheme chosen is to
+force 'Jump to self' instructions onto the data bus on every
+instruction fetch.  This continues DRAM refresh and limits
+the address change to 2 bytes.  This is called the idle state.
+
+We gate INT and NMI when stopped to prevent the Z80 jumping
+when we are pushing instructions on to the bus.
+
+The Z80 reset goes through the PIC so we can reset the Z80
+without resetting the system.
+
+To limit the number of buffers/pins required, the address bus
+is directly connected to the breakpoint RAM and system - the Z80
+is the only output so the only way for the PIC to read/write
+memory is to get the Z80 to do it via the CPLD.
+
+The CPLD can force 1 or 2 byte instructions onto the data bus
+in response to an instruction fetch and capture up to 2 bytes
+of data written by the Z80.  At the end of every instruction,
+the CPLD goes back to the idle state while the PIC loads the
+CPLD registers with the next instruction.
+
+We have to gate the control lines to the wider system so we
+can read/write the breakpoint RAM without upsetting the system.
+CPLD registers control whether the access goes to the breakpoint
+RAM, the system memory or is captured by the CPLD registers.
+A memory read puts data in the Z80 registers and the PIC can
+then load an instruction to write the reg and capture the
+data in the CPLD register.
+
+When the Z80 stops, the registers are read in the following order:
+
+1. The PC is read by executing a RST 0 instruction and capturing
+   the stack writes.  The stopped PC is (return address - 1).
+2. SP - the only way is to execute a LD (0),SP and capture the data.
+3. AF, BC, DE, HL, IX, IY by PUSH instructions, capturing the data.
+4. EX AF, AF' and EXX followed by PUSH AF, BC, DE, HL to get all
+   the alternate registers then EXX back again.
+
+

@@ -1,0 +1,14 @@
+Designator Footprint          Mid X         Mid Y         Ref X         Ref Y         Pad X         Pad Y TB      Rotation Comment   
+
+J3         CONN_SCSI68      85.217mm     100.745mm     82.3595mm       121.7mm     82.3595mm       121.7mm  T         90.00 ICE       
+R2         0402            90.424mm      91.432mm      90.424mm      90.932mm      90.424mm      90.932mm  T         90.00 100R      
+R1         0402            79.756mm     112.768mm      79.756mm     112.268mm      79.756mm     112.268mm  T         90.00 47R       
+R4         0402            90.424mm      87.876mm      90.424mm      87.376mm      90.424mm      87.376mm  T         90.00 100R      
+R6         0402            90.424mm      85.336mm      90.424mm      84.836mm      90.424mm      84.836mm  T         90.00 100R      
+R3         0402            79.756mm      88.384mm      79.756mm      87.884mm      79.756mm      87.884mm  T         90.00 100R      
+R5         0402            79.756mm      85.336mm      79.756mm      84.836mm      79.756mm      84.836mm  T         90.00 100R      
+FID1       FIDUCIAL_MARK    80.13699mm      76.581mm    80.13699mm      76.581mm    80.13699mm      76.581mm  T        360.00 FIDUCIAL MARK
+FID2       FIDUCIAL_MARK    90.29699mm     124.841mm    90.29699mm     124.841mm    90.29699mm     124.841mm  T        360.00 FIDUCIAL MARK
+J2         CONN_SIP20_NO_PIN1      92.837mm     100.711mm      92.837mm     124.841mm      92.837mm     124.841mm  B        270.00 IC Pins   
+J1         CONN_SIP20      77.597mm     100.711mm      77.597mm     124.841mm      77.597mm     124.841mm  B        270.00 IC Pins   
+

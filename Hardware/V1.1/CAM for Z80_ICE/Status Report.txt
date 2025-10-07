@@ -1,0 +1,27 @@
+CAM Outputs Generation Report
+for 'CAM Outputs for Z80_ICE.cam'
+at 12:32:42 on 3-Nov-2023 
+
+
+'NC Drill Output 1'
+'Z80_ICE.TXT' generated
+'Z80_ICE.DRL' generated
+'Z80_ICE.DRR' generated
+
+'Gerber Output 1'
+'Z80_ICE.GTL' generated
+'Z80_ICE.GBL' generated
+'Z80_ICE.GTO' generated
+'Z80_ICE.GBO' generated
+'Z80_ICE.GTP' generated
+'Z80_ICE.GBP' generated
+'Z80_ICE.GTS' generated
+'Z80_ICE.GBS' generated
+'Z80_ICE.GKO' generated
+'Z80_ICE.GM4' generated
+'Z80_ICE.GD1' generated
+'Z80_ICE.GG1' generated
+'Z80_ICE.REP' generated
+
+
+Total number of generated files = 16
