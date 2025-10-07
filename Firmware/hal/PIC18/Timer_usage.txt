@@ -1,0 +1,7 @@
+Timer usage in PIC18 HAL
+========================
+
+Timer 0   : hal_time.c    Main 1ms timer tick and timer_delay_us()
+Timer 3/5 : hal_time.c    Microsecond timer for timer_set_timeout()
+Timer 6   : i2c_master.c  I2C clock divider
+

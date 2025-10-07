@@ -1,0 +1,11 @@
+PIC HAL Problems
+================
+
+Sleep mode on PIC18F and probably PIC16F18857 - current consumption barely changes
+Looks to be something to do with the USB converter cable.  Connecting TXD pushes the current
+up by ~20mA when PIC is running from 5V.  Need to re-test with 3.3V and understand mechanism.
+Also, re-connecting TXD seems to fix it !
+
+
+XC8 V2.2 on PIC18F, -O2 doesn't work (GPIOs won't toggle in a simple loop).  -O0 and -O1 are fine.
+

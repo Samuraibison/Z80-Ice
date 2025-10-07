@@ -1,0 +1,31 @@
+PIC18F26K83
+-----------
+
+Read performance        :  667 KB/s
+Write same performance  :  612 KB/s
+Write blank performance :  100 KB/s
+Write new performance   :   52 KB/s
+
+Write test took 19.5s to run
+
+128 byte page write or erase takes 2.5ms max.
+
+
+PIC18F27Q43
+-----------
+
+Read performance        :  805 KB/s
+Write same performance  :  665 KB/s
+Write blank performance :  154 KB/s
+Write new performance   :   90 KB/s
+
+Write test took 56s to run
+
+256 byte page write takes 10ms max. and page erase take 11ms max.
+
+128 byte equivalence to K83 is 5ms which means Q43 flash performance is half of K83 chips.
+
+
+N.B. Because the PIC clock stops on every sector write, the internal timers
+     aren't accurate and results are higher than they should be.
+
